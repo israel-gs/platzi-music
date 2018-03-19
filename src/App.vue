@@ -2,92 +2,20 @@
   #app
     pm-header
 
-    pm-notification(v-show="showNotification")
-      p(slot="body") No se encontraron resultados.
+    router-view
 
-    pm-loader(v-show="isLoading")
-    section.section(v-show="!isLoading")
-      nav.nav
-        .container
-          input.input.is-large(
-            type="text", 
-            placeholder="Buscar canciones", 
-            v-model="searchQuery"
-          )
-          a.button.is-info.is-large(@click="search") Buscar
-          a.button.is-danger.is-large &times;
-
-      .container 
-        p
-          small {{ searchMessage }}
-
-      .container.results
-        .columns.is-multiline
-          .column.is-one-quarter(v-for="t in tracks")
-            pm-track(
-              :class="{ 'is-active': t.id === selectedTrack }"
-              :track="t", 
-              @select="setSelectedTrack"
-            )
     pm-footer
 </template>
 
 <script>
-
-import trackService from '@/services/track'
-import PmLoader from '@/components/shared/Loader.vue'
-import PmNotification from '@/components/shared/Notification.vue'
-
 import PmHeader from '@/components/layout/Header.vue'
 import PmFooter from '@/components/layout/Footer.vue'
-import PmTrack from '@/components/Track.vue'
 
 export default {
   name: 'app',
   components: {
-    PmLoader,
-    PmNotification,
     PmFooter,
-    PmHeader,
-    PmTrack
-  },
-  data () {
-    return {
-      searchQuery: '',
-      tracks: [],
-      isLoading: false,
-      showNotification: false,
-      selectedTrack: ''
-    }
-  },
-  computed: {
-    searchMessage () {
-      return `Se encontraron ${this.tracks.length} canciones.`
-    }
-  },
-  watch: {
-    showNotification () {
-      if (this.showNotification) {
-        setTimeout(() => {
-          this.showNotification = false
-        }, 3000)
-      }
-    }
-  },
-  methods: {
-    search () {
-      if (!this.searchQuery) { return }
-      this.isLoading = true
-      trackService.search(this.searchQuery)
-        .then((res) => {
-          this.showNotification = res.tracks.total === 0
-          this.tracks = res.tracks.items
-          this.isLoading = false
-        })
-    },
-    setSelectedTrack (id) {
-      this.selectedTrack = id
-    }
+    PmHeader
   }
 }
 </script>
