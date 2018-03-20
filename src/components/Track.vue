@@ -14,12 +14,12 @@
                     strong {{ track.name }}
                 p.subtitle.is-6 {{ track.artists[0].name }}
         .content
-            small {{ track.duration_ms }}
+            small {{ track.duration_ms | ms-to-mm }}
             nav.level
                 .level-left
-                    a.level-item
+                    button.level-item.button.is-primary
                         span.ico.is-small(@click="selectTrack") Play
-                    a.level-item
+                    button.level-item
                         span.ico.is-small(@click="goToTrack(track.id)") Ver
 </template>
 
