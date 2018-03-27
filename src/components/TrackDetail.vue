@@ -19,7 +19,7 @@
                 .content
                   ul(v-for="(t, k) in track")
                     li
-                      string {{ k }}:&nbsp;
+                      strong {{ k }}:&nbsp;
                       span {{ t }}
               nav.level
                 .level-left
